@@ -1,4 +1,4 @@
-console.log('Hello World!');
+console.log('Hello!');
 
 const board_background = 'green';
 const board_border = 'black';
