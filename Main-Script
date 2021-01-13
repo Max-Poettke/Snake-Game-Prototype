@@ -12,6 +12,8 @@ var towerY;
 let towerNumber = 0;
 let dx = 10;
 let dy = 0;
+var moveX = 0;
+var moveX = 0;
 let changing_direction = false;
 let foodSpawned = false;
 let endSnake = false;
@@ -21,6 +23,7 @@ var score = 0;
 const snakeboard = document.getElementById("gameCanvas");
 const snakeboard_ctx = gameCanvas.getContext("2d");
 
+let projectiles = [];
 let towers = [];
 let food = [];
 let snake = [ {x: 200, y: 200}, 
@@ -34,7 +37,8 @@ main();
 spawn_Food();
 
 function main(){
-  if (has_game_ended() || endSnake == true){ 
+  
+  if (has_game_ended() || endSnake === true){ 
     spawn_Enemy();
     document.addEventListener("mousedown", spawn_Tower);
     document.addEventListener("mousemove", mouse_Pos);
@@ -63,8 +67,9 @@ function has_game_ended() {
   for (let i = 4; i < snake.length; i ++) {
     const has_collided = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
     if (has_collided) {
+      console.log("dead");
       return true;
-    }
+    } //else {return false;}
   }
   
 //  const hitLeftWall = snake[0].x < 0;
@@ -239,7 +244,7 @@ function enemy_Loop(){
   setTimeout(function OnTick(){
     enemies.forEach(move_Enemies);
     enemy_Loop();
-  }, 400)
+  }, 400 / 25)
 }
 
 function spawn_Enemy(){
@@ -262,11 +267,21 @@ function draw_Enemies(thsEnemy){
 
 function move_Enemies(thsEnemy) {
   if (thsEnemy.arrayPos <= snake.length - 1){
-  thsEnemy.x = snake[thsEnemy.arrayPos].x + 2.5;
-  thsEnemy.y = snake[thsEnemy.arrayPos].y + 2.5;
-  
-  thsEnemy.arrayPos = thsEnemy.arrayPos + 1;
-  } else { enemy_Reached_Exit(); }
+  if (thsEnemy.x === snake[thsEnemy.arrayPos].x + 2.5 && thsEnemy.y === snake[thsEnemy.arrayPos].y + 2.5) {
+    if (thsEnemy.arrayPos === snake.length - 1) {
+      enemy_Reached_Exit(); 
+      return;
+    }
+      moveX = ((snake[thsEnemy.arrayPos + 1].x + 2.5) - thsEnemy.x) / 10;
+      moveY = ((snake[thsEnemy.arrayPos + 1].y + 2.5) - thsEnemy.y) / 10;
+      thsEnemy.x += moveX;
+      thsEnemy.y += moveY;
+    thsEnemy.arrayPos = thsEnemy.arrayPos + 1;
+    } else {
+    thsEnemy.x += moveX;
+    thsEnemy.y += moveY;
+    }
+  }
 }
 function enemy_Reached_Exit() {
   console.log("One did it!!!")
@@ -346,8 +361,15 @@ function detect_Enemy(thsTower){
    var distanceToTower = (enemies[i].x - thsTower.x) * (enemies[i].x - thsTower.x) + (enemies[i].y - thsTower.y) * (enemies[i].y - thsTower.y);
    var radius = thsTower.towerRange * thsTower.towerRange;
    if (distanceToTower < radius){
-     console.log("Enemy detected!");
-     return enemies[i].x, enemies[i].y;
+//     console.log("Enemy detected!");
+     return true;
    }
  }
+}
+
+function spawn_Projectile(thsTower){
+  if (towers.forEach(detect_Enemy) === true) {
+    // Get EnemyPos within Radius
+
+  }
 }
