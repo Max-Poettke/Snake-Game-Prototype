@@ -12,8 +12,8 @@ Found Bugs:
 - When crashing into yourself, the starting point of the enemies would be inside yourself so there would be a track overlap
 
 Plans:
-- Make enemy movement smoother
-- Create actual projectiles
+// Make enemy movement smoother (Finished) 
+- Create actual projectiles (Prio)
 - Create different enemies and towers
 - Create a lives counter or similar game-mechanic
 - Create a UI for selecting tower types
